@@ -1,0 +1,67 @@
+#!/bin/bash
+#  Copyright (C) 2019, lothrond <lothrond@posteo.us>
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+## BEGIN DEFAULT ENVIRONMENT
+
+[ $LUPDATE_LIBDIR ] || \
+    LUPDATE_LIBDIR=/usr/local/src/lupdate
+
+## END DEFAULT ENVIRONMENT
+
+# needs root
+if [ $UID -ne 0 ]; then
+    su=sudo
+fi
+
+#---------------------------------------------------------------------------
+# For every file type, source functions for operations, perform operations,
+# and then return user values (success/fail).
+#---------------------------------------------------------------------------
+
+# apt
+function update_apt_sources() {
+    if source ${LUPDATE_LIBDIR}/apt_update.sh; then
+        if $su apt_update; then
+            return 0
+        fi
+    fi
+}
+
+# deb
+#...
+
+# flatpak
+#...
+
+# git
+function update_git_sources() {
+    if source ${LUPDATE_LIBDIR}/git_update.sh; then
+        if $su git_update; then
+            return 0
+        fi
+    fi
+}
+
+# pip
+function update_pip_sources() {
+    if source ${LUPDATE_LIBDIR}/pip_update.sh; then
+        if python3 pip_update; then
+            return 0
+        fi
+    fi
+}
+
+exit $?
