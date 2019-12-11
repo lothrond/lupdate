@@ -19,12 +19,28 @@
 [ $LUPDATE_LIBDIR ] || \
     LUPDATE_LIBDIR=/usr/local/src/lupdate
 
+[ $LUPDATE_GITDIR ] || \
+    LUPDATE_GITDIR=( ~/source )
+
 ## END DEFAULT ENVIRONMENT
 
-# needs root
+# suppliment root with sudo
 if [ $UID -ne 0 ]; then
-    su=sudo
+    ssu=sudo
 fi
+
+# colors
+col0="\e[31m"
+col1="\e32m"
+res="\e0m"
+
+# return values
+RET1="${col0}Failed${res}"
+RET0="${col1}Successfuss${res}
+
+# set default return value to failed.
+# (for ctrl-c interrrupts, etc)
+ret=RET1
 
 #---------------------------------------------------------------------------
 # For every file type, source functions for operations, perform operations,
@@ -33,10 +49,10 @@ fi
 
 # apt
 function update_apt_sources() {
-    if source ${LUPDATE_LIBDIR}/apt_update.sh; then
-        if $su apt_update; then
-            return 0
-        fi
+    if ${ssu} ${LUPDATE_LIBDIR}/apt_update.sh; then
+        apt_ret=RET0
+    else
+        apt_ret=RET1
     fi
 }
 
@@ -48,20 +64,57 @@ function update_apt_sources() {
 
 # git
 function update_git_sources() {
-    if source ${LUPDATE_LIBDIR}/git_update.sh; then
-        if $su git_update; then
-            return 0
-        fi
+    if ${LUPDATE_LIBDIR}/git_update.sh; then
+        return 0
     fi
+
+    return 1
 }
 
 # pip
 function update_pip_sources() {
-    if source ${LUPDATE_LIBDIR}/pip_update.sh; then
-        if python3 pip_update; then
-            return 0
-        fi
+    if ${LUPDATE_LIBDIR}/pip_update.sh; then
+        return 0
     fi
+
+    return 1
 }
+
+# check return values
+function check_all_returns() {
+    echo -e "Update all apt sources: ${apt_ret}"
+}
+
+# program usage information
+function show_usage() {
+    echo ${PROG} - ${DESC}
+    echo
+    echo "USAGE:"
+    echo "   ${PROG} [OPTION]"
+    echo
+    echo "OPTIONS:"
+    echo ""
+    echo
+    echo "EXAMPLES:"
+    echo ""
+    echo
+}
+
+# global options
+PROG=$(basename $0)
+DESC=''
+uopt=""
+gopt=""
+opt=$(getopt -o $uopt -l $gopt -n "$PROG" -- "$@")
+[ $? -eq 0 ] || { exit 1 ;}
+
+# runtime
+if [ $# -eq 0 ]; then
+    show_usage; exit 1
+fi
+
+while :; do case "$1" in
+    *) show_usage; exit 1; break;;
+esac done
 
 exit $?

@@ -1,6 +1,14 @@
 #!/bin/bash
+#
+# update flatpak sources
+#
 
-function flatpak_update() {
-    echo "Updating flatpak sources..."
-    flatpak update
-}
+# update user
+echo "Updating local flatpak sources..."
+flatpak update
+
+# update system
+echo "Updating sytem-wide flatpak sources..."
+sudo flatpak update
+
+exit $?
