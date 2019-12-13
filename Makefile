@@ -10,14 +10,12 @@ LIB := lib/lupdate
 
 .PHONY: install
 install: $(SRC_BIN) $(SRC_LIB)
-	cp $(SRC_BIN) $(BIN)
-	chmod 755 $(BIN)
-	ifneq ( -d $(LIB))
-		mkdir $(LIB)
-	endif
-	cp $(SRC_LIB) $(LIB)
+	cp $(SRC_BIN) $(DESTDIR)/$(BIN)
+	chmod 755 $(DESTDIR)/$(BIN)
+	mkdir $(DESTDIR)/$(LIB)
+	cp $(SRC_LIB) $(DESTDIR)/$(LIB)
 
 .PHONY: remove
 remove:
-	rm $(BIN)
-	rm -r $(LIB)
+	rm $(DESTDIR)/$(BIN)
+	rm -r $(DESTDIR)/$(LIB)
