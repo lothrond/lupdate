@@ -14,6 +14,7 @@ install: $(SRC_BIN) $(SRC_LIB)
 	chmod 755 $(DESTDIR)/$(BIN)
 	mkdir $(DESTDIR)/$(LIB)
 	cp $(SRC_LIB) $(DESTDIR)/$(LIB)
+	chmod +x $(DESTDIR)/$(LIB)/*
 
 .PHONY: remove
 remove:
