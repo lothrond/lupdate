@@ -32,8 +32,8 @@ fi
 
 # colors
 col0="\e[31m"
-col1="\e32m"
-res="\e0m"
+col1="\e[32m"
+res="\e[0m"
 
 # return values
 RET1="${col0}Failed${res}"
@@ -43,20 +43,27 @@ RET0="${col1}Successful${res}"
 # (for ctrl-c interrrupts, etc)
 ret=$RET1
 
+
+# title
+echo -e "============================================="
+echo -e " linux update - $(date) "
+echo -e "============================================="
+echo -e "\n${col1}(in progress)...\n"
+
 #---------------------------------------------------------------------------
 # For every file type, source functions for operations, perform operations,
 # and then return user value (success/fail).
 #---------------------------------------------------------------------------
-
-if ${LUPDATE_LIBDIR}/apt_update.sh; then
-    if ${LUPDATE_LIBDIR}/flatpak_update.sh; then
-        if ${LUPDATE_LIBDIR}/git_update.sh; then
-            if ${LUPDATE_LIBDIR}/pip_update.py; then
-                ret=$RET0
-            fi
-        fi
-    fi
-fi
+#
+#if ${LUPDATE_LIBDIR}/apt_update.sh; then
+#    if ${LUPDATE_LIBDIR}/flatpak_update.sh; then
+#        if ${LUPDATE_LIBDIR}/git_update.sh; then
+#            if ${LUPDATE_LIBDIR}/pip_update.py; then
+#                ret=$RET0
+#            fi
+#        fi
+#    fi
+#fi
 
 echo -e "\nUpgrade ${ret}"
 exit $?

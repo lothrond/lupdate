@@ -14,7 +14,7 @@ echo "Upgrading apt sources..."
 sudo apt upgrade
 
 # remove junk
-echo "Removing obsolete apt sources..."
+echo "Removing orphaned apt sources..."
 sudo apt autoremove
 
 exit $?
