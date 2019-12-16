@@ -1,9 +1,11 @@
 lupdate
 =======
 
+(linux update)
+
 Update apt, flatpak, git, and pip sources on Ubuntu based distributions.
 
-## installation
+## Installation
 
 install:
 
@@ -13,6 +15,6 @@ remove:
 
     make remove
 
-## usage
+## Usage
 
-...
+Once installed, just run `lupdate` to update sources.
