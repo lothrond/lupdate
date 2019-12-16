@@ -18,7 +18,7 @@
 ## BEGIN DEFAULT ENVIRONMENT
 
 [ $LUPDATE_LIBDIR ] || \
-    LUPDATE_LIBDIR=/usr/local/src/lupdate
+    LUPDATE_LIBDIR=/usr/local/lib/lupdate
 
 [ $LUPDATE_GITDIR ] || \
     LUPDATE_GITDIR=( ~/source )
@@ -51,7 +51,8 @@ ret=$RET1
 if ${LUPDATE_LIBDIR}/apt_update.sh; then
     if ${LUPDATE_LIBDIR}/flatpak_update.sh; then
         if ${LUPDATE_LIBDIR}/git_update.sh; then
-            if ${LUPDATE_LIBDIR}/pip_update.sh; then
+            if ${LUPDATE_LIBDIR}/pip_update.py; then
+# check return values
                 ret=$RET0
             fi
         fi
