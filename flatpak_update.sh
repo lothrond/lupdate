@@ -3,12 +3,10 @@
 # update flatpak sources
 #
 
-# update user
+set -o errexit
+
+# update user flatpak sources
 echo "Updating local flatpak sources..."
 flatpak update
-
-# update system
-echo "Updating sytem-wide flatpak sources..."
-sudo flatpak update
 
 exit $?

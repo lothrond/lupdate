@@ -3,6 +3,8 @@
 # update apt packages
 #
 
+set -o errexit
+
 # update repos
 echo "Updating apt repositories..."
 sudo apt update

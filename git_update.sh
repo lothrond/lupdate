@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ $# -eq 1 ]; then
+    LUPDATE_GITDIR=( $1 )
+fi
+
 # Update git sources in LUPDATE_GITDIR
 for x in "${LUPDATE_GITDIR[@]}"; do
     cd $x; gdirs=( $(ls) )
